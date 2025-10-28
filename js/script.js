@@ -196,3 +196,60 @@ buttonPlay.addEventListener("click", () => {
 
     snake = [initialPosition]
 })
+
+
+let touchStartX = 0
+let touchStartY = 0
+let touchEndX = 0
+let touchEndY = 0
+
+canvas.addEventListener("touchstart", (e) => {
+    const touch = e.touches[0]
+    touchStartX = touch.clientX
+    touchStartY = touch.clientY
+})
+
+canvas.addEventListener("touchend", (e) => {
+    const touch = e.changedTouches[0]
+    touchEndX = touch.clientX
+    touchEndY = touch.clientY
+    handleSwipe()
+})
+
+function handleSwipe() {
+    const diffX = touchEndX - touchStartX
+    const diffY = touchEndY - touchStartY
+
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+       
+        if (diffX > 30 && direction != "left") direction = "right"
+        if (diffX < -30 && direction != "right") direction = "left"
+    } else {
+        
+        if (diffY > 30 && direction != "up") direction = "down"
+        if (diffY < -30 && direction != "down") direction = "up"
+    }
+}
+
+
+document.querySelector(".btn-up").addEventListener("click", () => {
+  if (direction != "down") direction = "up"
+})
+document.querySelector(".btn-down").addEventListener("click", () => {
+  if (direction != "up") direction = "down"
+})
+document.querySelector(".btn-left").addEventListener("click", () => {
+  if (direction != "right") direction = "left"
+})
+document.querySelector(".btn-right").addEventListener("click", () => {
+  if (direction != "left") direction = "right"
+})
+
+
+function resizeCanvas() {
+  const size = Math.min(window.innerWidth * 0.9, 600)
+  canvas.width = size
+  canvas.height = size
+}
+window.addEventListener('resize', resizeCanvas)
+resizeCanvas()
