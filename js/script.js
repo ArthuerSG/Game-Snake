@@ -271,18 +271,18 @@ resizeCanvas()
       return;
     }
 
-    // garante que os controles possam ser medidos mesmo se a folha de estilo os esconder
+    
     const prevDisplay = controls.style.display;
     const prevVisibility = controls.style.visibility;
     controls.style.display = 'flex';
-    controls.style.visibility = 'hidden'; // não pisca na tela
+    controls.style.visibility = 'hidden'; 
     controls.style.position = 'fixed';
     controls.style.transform = 'translateX(-50%)';
 
     const gap = 12;
     if (canvas) {
       const rect = canvas.getBoundingClientRect();
-      // força cálculo da altura atual dos controles
+      
       const controlsHeight = controls.offsetHeight || 0;
       let top = rect.bottom + gap;
       const maxTop = window.innerHeight - controlsHeight - 8;
@@ -297,7 +297,7 @@ resizeCanvas()
       controls.style.top = '';
     }
 
-    // restaura visibilidade e garante que apareçam
+    
     controls.style.visibility = prevVisibility || '';
     controls.style.display = prevDisplay === 'none' ? 'flex' : prevDisplay || 'flex';
   }

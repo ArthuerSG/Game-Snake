@@ -69,17 +69,13 @@ canvas {
     cursor: pointer;
 }
 
-/* ------------------------------------------- */
-/* NOVOS ESTILOS PARA MOBILE CONTROLS (D-PAD) */
-/* ------------------------------------------- */
 
-/* 1. Oculta no desktop por padrão e remove 'position: fixed' */
 .mobile-controls {
     display: none; 
-    margin-top: 20px; /* Espaço abaixo do canvas */
+    margin-top: 20px; 
     user-select: none;
     flex-direction: column;
-    align-items: flex-start; /* Essencial para o alinhamento do D-Pad */
+    align-items: flex-start; 
     gap: 10px;
     padding-bottom: 20px;
 }
@@ -107,19 +103,19 @@ canvas {
     gap: 10px;
 }
 
-/* 2. Centraliza o botão 'Cima' sobre o 'Baixo' */
+
 .mobile-controls .btn-up {
-    /* Largura do btn-left (60px) + Gap (10px) */
+    
     margin-left: calc(60px + 10px); 
 }
 
-/* 3. Exibe apenas no mobile (telas menores que 768px) */
+
 @media (max-width: 768px) {
     .mobile-controls {
-        display: flex; /* Aparece apenas em telas pequenas */
+        display: flex; 
     }
     
-    /* Adiciona padding extra no corpo para que os botões não sejam cortados */
+    
     body {
         padding-bottom: 120px; 
     }
