@@ -36,8 +36,8 @@ const randomColor = () => {
 }
 
 const food = {
-    x: randomPosition(),
-    y: randomPosition(),
+    x: randomPosition(), 
+    y: randomPosition(), 
     color: randomColor()
 }
 
@@ -169,7 +169,26 @@ const gameLoop = () => {
     }, 300)
 }
 
-gameLoop()
+
+
+const repositionFood = () => {
+    let x = randomPosition()
+    let y = randomPosition()
+
+    
+    while (x == initialPosition.x && y == initialPosition.y) {
+        x = randomPosition()
+        y = randomPosition()
+    }
+
+    food.x = x
+    food.y = y
+    food.color = randomColor()
+    
+    
+    snake = [initialPosition] 
+}
+
 
 document.addEventListener("keydown", ({ key }) => {
     if (key == "ArrowRight" && direction != "left") {
@@ -195,6 +214,9 @@ buttonPlay.addEventListener("click", () => {
     canvas.style.filter = "none"
 
     snake = [initialPosition]
+    repositionFood() 
+    
+    gameLoop()
 })
 
 
@@ -221,7 +243,7 @@ function handleSwipe() {
     const diffY = touchEndY - touchStartY
 
     if (Math.abs(diffX) > Math.abs(diffY)) {
-       
+        
         if (diffX > 30 && direction != "left") direction = "right"
         if (diffX < -30 && direction != "right") direction = "left"
     } else {
@@ -233,77 +255,28 @@ function handleSwipe() {
 
 
 document.querySelector(".btn-up").addEventListener("click", () => {
-  if (direction != "down") direction = "up"
+    if (direction != "down") direction = "up"
 })
 document.querySelector(".btn-down").addEventListener("click", () => {
-  if (direction != "up") direction = "down"
+    if (direction != "up") direction = "down"
 })
 document.querySelector(".btn-left").addEventListener("click", () => {
-  if (direction != "right") direction = "left"
+    if (direction != "right") direction = "left"
 })
 document.querySelector(".btn-right").addEventListener("click", () => {
-  if (direction != "left") direction = "right"
+    if (direction != "left") direction = "right"
 })
 
 
 function resizeCanvas() {
-  const size = Math.min(window.innerWidth * 0.9, 600)
-  canvas.width = size
-  canvas.height = size
+    const size = Math.min(window.innerWidth * 0.9, 600)
+    canvas.width = size
+    canvas.height = size
+    
+    
+    repositionFood() 
 }
+
 window.addEventListener('resize', resizeCanvas)
-resizeCanvas()
-
-(function () {
-  const controls = document.querySelector('.mobile-controls');
-  const canvas = document.querySelector('canvas');
-
-  function updateMobileControls() {
-    if (!controls) return;
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-    if (!isMobile) {
-      controls.style.display = 'none';
-      controls.style.removeProperty('top');
-      controls.style.removeProperty('left');
-      controls.style.removeProperty('transform');
-      controls.style.removeProperty('bottom');
-      return;
-    }
-
-    
-    const prevDisplay = controls.style.display;
-    const prevVisibility = controls.style.visibility;
-    controls.style.display = 'flex';
-    controls.style.visibility = 'hidden'; 
-    controls.style.position = 'fixed';
-    controls.style.transform = 'translateX(-50%)';
-
-    const gap = 12;
-    if (canvas) {
-      const rect = canvas.getBoundingClientRect();
-      
-      const controlsHeight = controls.offsetHeight || 0;
-      let top = rect.bottom + gap;
-      const maxTop = window.innerHeight - controlsHeight - 8;
-      top = Math.min(top, maxTop);
-      const centerX = rect.left + rect.width / 2;
-
-      controls.style.left = `${centerX}px`;
-      controls.style.top = `${Math.max(top, 8)}px`;
-    } else {
-      controls.style.left = '50%';
-      controls.style.bottom = '20px';
-      controls.style.top = '';
-    }
-
-    
-    controls.style.visibility = prevVisibility || '';
-    controls.style.display = prevDisplay === 'none' ? 'flex' : prevDisplay || 'flex';
-  }
-
-  window.addEventListener('load', updateMobileControls);
-  window.addEventListener('resize', updateMobileControls);
-  window.addEventListener('orientationchange', updateMobileControls);
-  window.updateMobileControls = updateMobileControls;
-})();
+resizeCanvas() 
+gameLoop()
