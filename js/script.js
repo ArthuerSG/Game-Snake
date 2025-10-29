@@ -253,3 +253,57 @@ function resizeCanvas() {
 }
 window.addEventListener('resize', resizeCanvas)
 resizeCanvas()
+
+(function () {
+  const controls = document.querySelector('.mobile-controls');
+  const canvas = document.querySelector('canvas');
+
+  function updateMobileControls() {
+    if (!controls) return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    if (!isMobile) {
+      controls.style.display = 'none';
+      controls.style.removeProperty('top');
+      controls.style.removeProperty('left');
+      controls.style.removeProperty('transform');
+      controls.style.removeProperty('bottom');
+      return;
+    }
+
+    // garante que os controles possam ser medidos mesmo se a folha de estilo os esconder
+    const prevDisplay = controls.style.display;
+    const prevVisibility = controls.style.visibility;
+    controls.style.display = 'flex';
+    controls.style.visibility = 'hidden'; // não pisca na tela
+    controls.style.position = 'fixed';
+    controls.style.transform = 'translateX(-50%)';
+
+    const gap = 12;
+    if (canvas) {
+      const rect = canvas.getBoundingClientRect();
+      // força cálculo da altura atual dos controles
+      const controlsHeight = controls.offsetHeight || 0;
+      let top = rect.bottom + gap;
+      const maxTop = window.innerHeight - controlsHeight - 8;
+      top = Math.min(top, maxTop);
+      const centerX = rect.left + rect.width / 2;
+
+      controls.style.left = `${centerX}px`;
+      controls.style.top = `${Math.max(top, 8)}px`;
+    } else {
+      controls.style.left = '50%';
+      controls.style.bottom = '20px';
+      controls.style.top = '';
+    }
+
+    // restaura visibilidade e garante que apareçam
+    controls.style.visibility = prevVisibility || '';
+    controls.style.display = prevDisplay === 'none' ? 'flex' : prevDisplay || 'flex';
+  }
+
+  window.addEventListener('load', updateMobileControls);
+  window.addEventListener('resize', updateMobileControls);
+  window.addEventListener('orientationchange', updateMobileControls);
+  window.updateMobileControls = updateMobileControls;
+})();

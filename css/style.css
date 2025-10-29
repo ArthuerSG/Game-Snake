@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppings", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -69,33 +69,19 @@ canvas {
     cursor: pointer;
 }
 
+/* ------------------------------------------- */
+/* NOVOS ESTILOS PARA MOBILE CONTROLS (D-PAD) */
+/* ------------------------------------------- */
 
-
+/* 1. Oculta no desktop por padrão e remove 'position: fixed' */
 .mobile-controls {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
+    display: none; 
+    margin-top: 20px; /* Espaço abaixo do canvas */
     user-select: none;
-    display: flex;
-    flex-direction: column; 
-    align-items: center; /* centraliza horizontalmente as linhas (antes era flex-start) */
+    flex-direction: column;
+    align-items: flex-start; /* Essencial para o alinhamento do D-Pad */
     gap: 10px;
-}
-
-.mobile-controls .btn-up {
-    margin-left: 0; /* remove deslocamento manual: agora a coluna está centralizada */
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    background-color: #333;
-    color: white;
-    opacity: 0.8;
+    padding-bottom: 20px;
 }
 
 .mobile-controls button {
@@ -115,36 +101,26 @@ canvas {
     background-color: #555;
 }
 
-/* linha do meio: alinhe os itens pela base para que os laterais fiquem na mesma altura do btn-down */
 .middle-row {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     gap: 10px;
-    align-items: flex-end; /* faz os botões esquerda/direita alinharem com o botão de baixo */
 }
 
-/* botão do meio sobe sobre o de baixo */
-.middle-row .btn-middle {
-    position: relative;
-    z-index: 2;
-    transform: translateY(-50%); /* ajuste esse valor conforme necessário */
+/* 2. Centraliza o botão 'Cima' sobre o 'Baixo' */
+.mobile-controls .btn-up {
+    /* Largura do btn-left (60px) + Gap (10px) */
+    margin-left: calc(60px + 10px); 
 }
 
-/* mantém os botões laterais na mesma altura do btn-down */
-.middle-row .btn-left,
-.middle-row .btn-right {
-    transform: translateY(0); /* deixe 0 ou ajuste levemente (ex.: 4px) se precisar de fine-tune */
-}
-
-/* garante que o botão de baixo fique atrás e sem deslocamento extra */
-.mobile-controls .btn-down {
-    position: relative;
-    z-index: 1;
-    margin-top: 0; 
-}
-
+/* 3. Exibe apenas no mobile (telas menores que 768px) */
 @media (max-width: 768px) {
-  .mobile-controls {
-    display: flex; 
-  }
+    .mobile-controls {
+        display: flex; /* Aparece apenas em telas pequenas */
+    }
+    
+    /* Adiciona padding extra no corpo para que os botões não sejam cortados */
+    body {
+        padding-bottom: 120px; 
+    }
 }
